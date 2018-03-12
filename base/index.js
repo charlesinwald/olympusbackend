@@ -47,15 +47,7 @@ app.use('/image', function (req, res) {
     res.send(image);
 });
 app.use(fileUpload());
-app.post('/upload', function (req, res) {
-    if (!req.files)
-        return res.status(400).send('No files were uploaded.');
-    // The name of the input field used to retrieve the uploaded file
-    var sampleFile = req.files.file.data;
-    var x = req.body;
-    console.log(sampleFile);
-    console.dir(sampleFile);
-    var mv = require('mv');
+function saveFile(sampleFile) {
     var fs = require('fs');
     //Use the mv() method to place the file somewhere on server
     fs.writeFile("/home/cabox/workspace/base/public/image/d.jpg", sampleFile, function (err) {
@@ -68,6 +60,17 @@ app.post('/upload', function (req, res) {
     var encoded = new Buffer(imageAsBase64).toString('base64');
     console.log("ENCODED: " + encoded);
     console.log(typeof sampleFile);
+}
+app.post('/upload', function (req, res) {
+    if (!req.files)
+        return res.status(400).send('No files were uploaded.');
+    // The name of the input field used to retrieve the uploaded file
+    var sampleFile = req.files.file.data;
+    var x = req.body;
+    console.log(sampleFile);
+    console.dir(sampleFile);
+    var mv = require('mv');
+    saveFile(sampleFile);
     var filename = '/home/cabox/workspace/base/public/image/d.jpg';
     var request = require("request");
     var options = {

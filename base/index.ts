@@ -61,6 +61,22 @@ app.use('/image', function(req, res) {
 
 
 app.use(fileUpload());
+function saveFile(sampleFile: string | {} | any | ArrayBuffer) {
+    var fs = require('fs');
+    //Use the mv() method to place the file somewhere on server
+    fs.writeFile("/home/cabox/workspace/base/public/image/d.jpg", sampleFile, function (err) {
+        if (err) {
+            return console.log(err);
+        }
+
+        console.log("The file was saved!");
+    });
+    var imageAsBase64 = fs.readFileSync('/home/cabox/workspace/base/public/image/d.jpg');
+    var encoded = new Buffer(imageAsBase64).toString('base64');
+    console.log("ENCODED: " + encoded);
+    console.log(typeof sampleFile);
+}
+
 app.post('/upload', function(req, res) {
   if (!req.files)
     return res.status(400).send('No files were uploaded.');
@@ -72,21 +88,9 @@ app.post('/upload', function(req, res) {
   console.log(sampleFile);
   console.dir(sampleFile);
   var mv = require('mv');
-  var fs = require('fs');
-
-  //Use the mv() method to place the file somewhere on server
-  fs.writeFile("/home/cabox/workspace/base/public/image/d.jpg", sampleFile, function(err) {
-    if (err) {
-      return console.log(err);
-    }
-
-    console.log("The file was saved!");
-  });
-  var imageAsBase64 = fs.readFileSync('/home/cabox/workspace/base/public/image/d.jpg');
-  var encoded = new Buffer(imageAsBase64).toString('base64');
-  console.log("ENCODED: " + encoded);
-  console.log(typeof sampleFile);
+    saveFile(sampleFile);
   var filename = '/home/cabox/workspace/base/public/image/d.jpg';
+
 
   var request = require("request");
 
