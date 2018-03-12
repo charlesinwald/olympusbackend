@@ -3,6 +3,7 @@ var express = require('express'),
   path = require('path'),
   less = require('less-middleware');
 const fileUpload = require('express-fileupload');
+import {parseModel} from './parse.js';
 
 var multer = require('multer')
 var upload = multer({
@@ -121,12 +122,12 @@ app.post('/upload', function(req, res) {
 
 });
 
-module.exports = {
-//Parse image recognition output into model & serial.
-   parseModel(imgTxt)
-{
-    return imgTxt.match(/\S{3}-\S{5}\n\d{7}/);
-}
-};
+// module.exports = {
+// //Parse image recognition output into model & serial.
+//    function parseModel(imgTxt)
+// {
+//     return imgTxt.match(/\S{3}-\S{5}\n\d{7}/);
+// }
+// };
 // setup server
 var server = app.listen(1337);

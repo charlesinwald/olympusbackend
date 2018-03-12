@@ -1,5 +1,8 @@
+"use strict";
+exports.__esModule = true;
 var express = require('express'), app = express(), path = require('path'), less = require('less-middleware');
 var fileUpload = require('express-fileupload');
+var parse_js_1 = require("./parse.js");
 var multer = require('multer');
 var upload = multer({
     dest: 'uploads/'
@@ -88,7 +91,7 @@ app.post('/upload', function (req, res) {
             console.log(body);
             var text = body2.responses[0].textAnnotations[0].description;
             console.log(text);
-            var parsed = parseModel(text);
+            var parsed = parse_js_1.parseModel(text);
             console.log(parsed[0]);
             res.send(parsed[0]);
         }
@@ -98,11 +101,12 @@ app.post('/upload', function (req, res) {
         }
     });
 });
-module.exports = {
-    //Parse image recognition output into model & serial.
-    parseModel: function (imgTxt) {
-        return imgTxt.match(/\S{3}-\S{5}\n\d{7}/);
-    }
-};
+// module.exports = {
+// //Parse image recognition output into model & serial.
+//    function parseModel(imgTxt)
+// {
+//     return imgTxt.match(/\S{3}-\S{5}\n\d{7}/);
+// }
+// };
 // setup server
 var server = app.listen(1337);
