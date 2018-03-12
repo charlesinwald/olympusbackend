@@ -77,7 +77,7 @@ app.post('/upload', function (req, res) {
             'postman-token': '7d45cfcc-27a4-0d99-cd0e-a7c020a73c67',
             'cache-control': 'no-cache'
         },
-        body: '{\n  "requests":[\n    {\n      "image":{\n        "source":{\n          "imageUri":\n            "http://olympus-cci219706483.codeanyapp.com:1337/image/d.jpg"\n        }\n      },\n      "features":[\n        {\n          "type":"TEXT_DETECTION",\n          "maxResults":1\n        }\n      ]\n    }\n  ]\n}'
+        body: '{\n  "requests":[\n    {\n      "image":{\n        "source":{\n          "imageUri":\n            "http://olympusbackend-cci219706483.codeanyapp.com:1337/image/d.jpg"\n        }\n      },\n      "features":[\n        {\n          "type":"TEXT_DETECTION",\n          "maxResults":1\n        }\n      ]\n    }\n  ]\n}'
     };
     //Google Cloud Vision Request
     request(options, function (error, response, body) {
@@ -98,10 +98,11 @@ app.post('/upload', function (req, res) {
         }
     });
 });
-//Parse image recognition output into model & serial.
-function parseModel(imgTxt) {
-    var parsedText = imgTxt.match(/\S{3}-\S{4}\n\d{7}/);
-    return parsedText;
-}
+module.exports = {
+    //Parse image recognition output into model & serial.
+    parseModel: function (imgTxt) {
+        return imgTxt.match(/\S{3}-\S{5}\n\d{7}/);
+    }
+};
 // setup server
 var server = app.listen(1337);
